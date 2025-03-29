@@ -1,0 +1,30 @@
+package ca.mcmaster.se2aa4.mazerunner.commands;
+
+import ca.mcmaster.se2aa4.mazerunner.Maze;
+import ca.mcmaster.se2aa4.mazerunner.MazeSolver;
+import ca.mcmaster.se2aa4.mazerunner.Path;
+
+public class SolveMazeCommand implements Command {
+    private MazeSolver solver;
+    private Maze maze;
+    private Path result;
+
+    public SolveMazeCommand(MazeSolver solver, Maze maze) {
+        this.solver = solver;
+        this.maze = maze;
+    }
+
+    @Override
+    public void execute() {
+        result = solver.solve(maze);
+    }
+
+    @Override
+    public void undo() {
+        result = null;
+    }
+
+    public Path getResult() {
+        return result;
+    }
+}
