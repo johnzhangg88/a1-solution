@@ -1,0 +1,15 @@
+package ca.mcmaster.se2aa4.mazerunner.factory;
+
+import ca.mcmaster.se2aa4.mazerunner.MazeSolver;
+import ca.mcmaster.se2aa4.mazerunner.RightHandSolver;
+import ca.mcmaster.se2aa4.mazerunner.TremauxSolver;
+
+public class SolverFactory {
+    public static MazeSolver createSolver(String type) {
+        return switch (type) {
+            case "RightHand" -> new RightHandSolver();
+            case "Tremaux" -> new TremauxSolver();
+            default -> throw new IllegalArgumentException("Unknown solver type: " + type);
+        };
+    }
+}
