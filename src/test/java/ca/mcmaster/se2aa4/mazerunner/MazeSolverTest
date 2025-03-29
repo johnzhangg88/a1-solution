@@ -1,0 +1,92 @@
+package ca.mcmaster.se2aa4.mazerunner;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class MazeSolverTest {
+
+    @Test
+    void testPositionInitialization() {
+        Position pos = new Position(2, 3);
+        assertEquals(2, pos.getX());
+        assertEquals(3, pos.getY());
+    }
+
+    @Test
+    void testMazeLoading() {
+        Maze maze = new Maze("examples/large.maz.txt");
+        assertNotNull(maze);
+        assertTrue(maze.getWidth() > 0);
+        assertTrue(maze.getHeight() > 0);
+    }
+    
+    @Test
+    void testPathRecording() {
+        Path path = new Path();
+        path.addStep(new Position(1, 1));
+        path.addStep(new Position(1, 2));
+        assertEquals(2, path.getLength());
+    }
+    
+    @Test
+    void testRightHandSolverSolvesMaze() {
+        Maze maze = new Maze("examples/small.maz.txt");
+        MazeSolver solver = new RightHandSolver();
+        Path solution = solver.solve(maze);
+        assertNotNull(solution);
+        assertTrue(solution.getLength() > 0);
+    }
+    
+    @Test
+    void testTremauxSolverSolvesMaze() {
+        Maze maze = new Maze("examples/small.maz.txt");
+        MazeSolver solver = new TremauxSolver();
+        Path solution = solver.solve(maze);
+        assertNotNull(solution);
+        assertTrue(solution.getLength() > 0);
+    }
+    
+    @Test
+    void testSolverHandlesDeadEnds() {
+        Maze maze = new Maze("examples/deadend.maz.txt");
+        MazeSolver solver = new RightHandSolver();
+        Path solution = solver.solve(maze);
+        assertNotNull(solution);
+        assertTrue(solution.getLength() > 0);
+    }
+    
+    @Test
+    void testSolverHandlesLoops() {
+        Maze maze = new Maze("examples/loop.maz.txt");
+        MazeSolver solver = new TremauxSolver();
+        Path solution = solver.solve(maze);
+        assertNotNull(solution);
+        assertTrue(solution.getLength() > 0);
+    }
+    
+    @Test
+    void testSolverHandlesMultiplePaths() {
+        Maze maze = new Maze("examples/multiplepaths.maz.txt");
+        MazeSolver solver = new RightHandSolver();
+        Path solution = solver.solve(maze);
+        assertNotNull(solution);
+        assertTrue(solution.getLength() > 0);
+    }
+    
+    @Test
+    void testSolverHandlesNoSolution() {
+        Maze maze = new Maze("examples/nosolution.maz.txt");
+        MazeSolver solver = new TremauxSolver();
+        Path solution = solver.solve(maze);
+        assertNull(solution);
+    }
+    
+    @Test
+    void testSolverHandlesStartEqualsEnd() {
+        Maze maze = new Maze("examples/startisend.maz.txt");
+        MazeSolver solver = new RightHandSolver();
+        Path solution = solver.solve(maze);
+        assertNotNull(solution);
+        assertEquals(1, solution.getLength());
+    }
+}
